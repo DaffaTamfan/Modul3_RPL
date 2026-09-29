@@ -9,6 +9,7 @@ model.create_buku("Pemrograman Python MVC", "Guido van Rossum", 2023)
 print("Data berhasil disimpan ke Laragon MySQL!")
 
 # 2. Menguji fungsi Read (menampilkan data)
+print("Daffa_039")
 print("\n=== Daftar Buku ===")
 daftar_buku = model.get_all_buku()
 for buku in daftar_buku:
