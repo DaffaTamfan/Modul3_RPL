@@ -22,4 +22,4 @@ class Database:
                 return self.conn
         except Error as e:
             print(f"Koneksi Gagal: {e}")
-            return None
+            return None 
