@@ -24,3 +24,17 @@ class UserModel:
             cursor.close()
             return user
         return None
+    
+    def register_user(self, username, password, role="anggota"):
+        """
+        Menambahkan pengguna baru ke database dengan password yang telah di-hash menggunakan SHA-256.
+        """
+        if self.conn:
+            hashed_password = self.hash_password(password)
+            cursor = self.conn.cursor()
+            query = f"INSERT INTO {self.table_name} (username, password, role) VALUES (%s, %s, %s)"
+            cursor.execute(query, (username, hashed_password, role))
+            self.conn.commit()
+            cursor.close()
+            return True
+        return False

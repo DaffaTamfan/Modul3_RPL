@@ -14,12 +14,22 @@ class BukuController:
         # Binding tombol simpan
         self.view.btn_simpan.configure(command=self.simpan_data)
 
+        # Binding tombol logout
+        self.view.btn_logout.configure(command=self.logout)
+
         # OTORISASI: Jika bukan admin, nonaktifkan form input dan tombol simpan
         if self.user_role != "admin":
             self.view.btn_simpan.configure(state="disabled", text="Akses Terkunci (Khusus Admin)")
             self.view.entry_judul.configure(state="disabled")
             self.view.entry_penulis.configure(state="disabled")
             self.view.entry_tahun.configure(state="disabled")
+        # OTORISASI: Jika bukan admin (misalnya anggota), nonaktifkan tombol update dan delete)
+            if hasattr(self.view, "btn_update"):
+                self.view.btn_update.configure(state="disabled", text="Akses Terkunci")
+            if hasattr(self.view, "btn_delete"):
+                self.view.btn_delete.configure(state="disabled", text="Akses Terkunci")
+            if hasattr(self.view, "btn_hapus"):
+                self.view.btn_hapus.configure(state="disabled", text="Akses Terkunci")
 
         self.muat_data_tabel()
 
@@ -52,6 +62,23 @@ class BukuController:
            self.muat_data_tabel()
         else:
            messagebox.showerror("Error", "Gagal menyimpan data.")
+
+    def logout(self):
+        """
+        Menutup jendela utama perpustakaan dan kembali ke halaman Login.
+        """
+        # Tutup jendela BukuView saat ini
+        self.view.destroy()
+        
+        # Impor AuthController dan LoginView secara lokal untuk menghindari circular import
+        from Controllers.auth_controllers import AuthController
+        from views.login_view import LoginView
+        
+        # Buka kembali jendela Login
+        root_login = ctk.CTk() # Pastikan customtkinter sudah diimpor jika diperlukan
+        auth_view = LoginView(root_login)
+        auth_controller = AuthController(auth_view)
+        root_login.mainloop()
 
     def run(self):
         self.view.mainloop()
