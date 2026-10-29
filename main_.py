@@ -1,5 +1,6 @@
-from Controllers.buku_controller import BukuController
+# Daffa_039
+from Controllers.auth_controllers import AuthController
 
 if __name__ == "__main__":
-    app = BukuController()
+    app = AuthController()
     app.run()
